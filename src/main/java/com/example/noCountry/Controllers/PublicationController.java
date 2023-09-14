@@ -118,7 +118,7 @@ public class PublicationController {
             return new ResponseEntity("Publicacion creada correctamente", HttpStatus.OK);
             
         } catch (Exception e){
-            return new ResponseEntity("La publicacion no pudo crearse correctamente, contacte con soporte", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("La publicacion no pudo crearse correctamente, contacte con soporte", HttpStatus.NOT_ACCEPTABLE);
         }
     }
     
