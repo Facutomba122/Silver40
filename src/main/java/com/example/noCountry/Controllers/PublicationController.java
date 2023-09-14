@@ -111,16 +111,14 @@ public class PublicationController {
         try {
             
             if (newPublication == null || newPublication.getBody() == null || newPublication.getKeywords() == null 
-                || newPublication.getLocation() == null || newPublication.getName() == null || newPublication.getOwner() == null){
-                return ResponseEntity.badRequest().body("Todos los campos son obligatorios");
+                || newPublication.getLocation() == null || newPublication.getName() == null){ //|| newPublication.getOwner() == null){
+                return new ResponseEntity("Todos los campos son obligatorios", HttpStatus.BAD_REQUEST);
             }
             publicationService.insertNewPublication(newPublication);
-            return ResponseEntity.ok("Publicacion creada correctamente");
+            return new ResponseEntity("Publicacion creada correctamente", HttpStatus.OK);
             
         } catch (Exception e){
-            System.out.println("SADASDASD");
-            System.out.println(e);
-            return ResponseEntity.badRequest().body("La publicacion no pudo crearse correctamente, contacte con soporte");
+            return new ResponseEntity("La publicacion no pudo crearse correctamente, contacte con soporte", HttpStatus.BAD_REQUEST);
         }
     }
     
