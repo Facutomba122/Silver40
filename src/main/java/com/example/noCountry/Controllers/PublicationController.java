@@ -61,64 +61,39 @@ public class PublicationController {
     /*
         ----EX BODY VALIDO----
             {
-                "name": "ejemplo",
-                "body": "Se busca trabajdor con conocimientos en cortar fiambre y atencion al publico."
-                "owner" : { 
-                            owner no implementado aun, ACTUALIZAR DOCUMENTACION
-                          }
-                "keywords" : "carniceria#trabajo#atencionalpublico#",
-                "location" : "MENDOZA"
-            }
-    
-    
-        ---- BODY ESPERADO ----
-            {
-            "name": "ejemplo123",
-            "body": "lorem*15",
-            "owner": {
-                        DATOS DEL EMPLEADOR
-                     },
-            "keywords": "ejemplo#trabajo#desarrollador#It#",
-            "location": "posibles locaciones (solo puede elegirse una):
-                    MENDOZA,
-                    CORDOBA,
-                    SANLUIS,
-                    SANJUAN,
-                    BUENOSAIRES,
-                    TUCUMAN,
-                    SANTAFE,
-                    CHUBUT,
-                    RIONEGRO,
-                    SANTACRUZ,
-                    LAPAMPA,
-                    MISIONES,
-                    CATAMARCA,
-                    ENTRERIOS,
-                    JUJUY,
-                    CHACO,
-                    CORRIENTES,
-                    FORMOSA,
-                    LARIOJA,
-                    SALTA,
-                    NEUQUEN,
-                    SANTIAGODELESTERO,
-                    TIERRADELFUEGO  
-                    "
-        }
+                "name": "EXAMPLE EMPLEO",
+                "body": "Se busca empleado default para hacer tareas default",
+                "owner": "baf6790e-d75d-4a56-907e-c06b79e74092",
+                "keywords": "example#empleo#1234#",
+                "location": "CORDOBA",
+                "schedule": 150,
+                "vacancies": 5,
+                "industry": "TEXTILE",
+                "contractType": "INDETERMINADO",
+                "modalityWork": "PRESENCIAL",
+                "salary": 150000,
+                "city": "GODOY CRUZ",
+                "seniority": "SENIOR",
+                "description": "DESCRIPCION DEFAULT",
+                "chores": "RESPONSABILIDADES DEFAULT",
+                "requirements": "REQUERIMIENTOS DEFAULT",
+                "benefit": "DEFAULT"
+}           }
     */
-    @PostMapping
-    public ResponseEntity<?> insertNewPublication(@RequestBody PublicationDTO newPublication){
+    @PostMapping("/{id}")
+    public ResponseEntity<?> insertNewPublication(@PathVariable("id") UUID id, @RequestBody PublicationDTO newPublication){
         try {
-            
-            if (newPublication == null || newPublication.getBody() == null || newPublication.getKeywords() == null 
-                || newPublication.getLocation() == null || newPublication.getName() == null){ //|| newPublication.getOwner() == null){
+            if (id == null){
+                return new ResponseEntity("El usuario empleador no existe", HttpStatus.BAD_REQUEST);
+            }
+            if (publicationService.validateFields(newPublication)){
                 return new ResponseEntity("Todos los campos son obligatorios", HttpStatus.BAD_REQUEST);
             }
             publicationService.insertNewPublication(newPublication);
-            return new ResponseEntity("Publicacion creada correctamente", HttpStatus.OK);
+            return ResponseEntity.ok("Publicacion creada correctamente");
             
         } catch (Exception e){
-            return new ResponseEntity("La publicacion no pudo crearse correctamente, contacte con soporte", HttpStatus.NOT_ACCEPTABLE);
+            return ResponseEntity.badRequest().body("La publicacion no pudo crearse correctamente, contacte con soporte");
         }
     }
     
@@ -130,9 +105,6 @@ public class PublicationController {
             {
                 "name": "ejemplo",
                 "body": "Se busca trabajdor con conocimientos en cortar fiambre y atencion al publico."
-                "owner" : { 
-                            owner no implementado aun, ACTUALIZAR DOCUMENTACION
-                          }
                 "keywords" : "carniceria#trabajo#atencionalpublico#",
                 "location" : "MENDOZA"
             }
@@ -142,9 +114,6 @@ public class PublicationController {
             {
             "name": "ejemplo123",
             "body": "lorem*15",
-            "owner": {
-                        DATOS DEL EMPLEADOR
-                     },
             "keywords": "ejemplo#trabajo#desarrollador#It#",
             "location": "posibles locaciones (solo puede elegirse una):
                     MENDOZA,

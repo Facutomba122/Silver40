@@ -8,21 +8,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import lombok.Data;
-
 import java.util.Collection;
 import java.util.UUID;
 
 @Entity
-@Data
 public class Employer extends User{
     @Id
     @GeneratedValue(generator = "uuid")
     private UUID id;
     
     private String enterpriseName;
-
-    private String userName;
     private FiscalCondition fiscalCondition;
     private Long cuit;
     private String taxResidence;
@@ -40,11 +35,12 @@ public class Employer extends User{
     public Employer() {
     }
 
-    public Employer(String userName, String password, String firstname,
-                    String lastname, Integer contactNum, Role role, Location location,
-                    String country) {
-        super(userName, password, firstname, lastname, contactNum, role, location, country);
+    public Employer(UUID id, String email, String password, String firstname,
+            String lastname, Integer contactNum, Role role, Location location,
+            String country) {
+        super(id, email, password, firstname, lastname, contactNum, role, location, country);
     }
+
     public Employer(String enterpriseName, FiscalCondition fiscalCondition,
             Long cuit, String taxResidence, Industry industryType, Boolean isVerified,
             Collection<Publication> myPublication) {
@@ -59,9 +55,9 @@ public class Employer extends User{
 
     public Employer(String enterpriseName, FiscalCondition fiscalCondition, Long cuit,
             String taxResidence, Industry industryType, Boolean isVerified, Collection<Publication> myPublication,
-            String userName, String password, String firstname, String lastname, Integer contactNum,
+            String email, String password, String firstname, String lastname, Integer contactNum,
             Role role, Location location, String country) {
-        super(userName, password, firstname, lastname, contactNum, role, location, country);
+        super(email, password, firstname, lastname, contactNum, role, location, country);
         this.enterpriseName = enterpriseName;
         this.fiscalCondition = fiscalCondition;
         this.cuit = cuit;
@@ -86,14 +82,6 @@ public class Employer extends User{
 
     public void setMyPublication(Collection<Publication> myPublication) {
         this.myPublication = myPublication;
-    }
-    
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getEnterpriseName() {

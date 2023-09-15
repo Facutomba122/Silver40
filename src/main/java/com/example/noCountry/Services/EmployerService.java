@@ -5,6 +5,8 @@ import com.example.noCountry.DTO.EmployerDTO;
 import com.example.noCountry.Entity.Employer;
 import com.example.noCountry.Repository.EmployerRepository;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,10 @@ public class EmployerService {
         }
     }
     
+    public List<Employer> findAll(){
+        List<Employer> responseEmployerList = employerRepo.findAll();
+        return responseEmployerList;
+    }
     
     private boolean validateInput(EmployerDTO employerDTO){
         if (employerDTO.getIsVerified() == null){
@@ -53,7 +59,7 @@ public class EmployerService {
         if (employerDTO.getCuit() == null){
             return false;
         }
-        if (employerDTO.getEmail() == null || employerRepo.findByuserName(employerDTO.getEnterpriseName()).isPresent()){
+        if (employerDTO.getEmail() == null || employerRepo.findByUsername(employerDTO.getEmail()).isPresent()){
             return false;
         }
         if (employerDTO.getEnterpriseName() == null){

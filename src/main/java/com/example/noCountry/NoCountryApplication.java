@@ -1,5 +1,12 @@
 package com.example.noCountry;
 
+import com.example.noCountry.Entity.AuthoritiesRoles;
+import com.example.noCountry.Entity.User;
+import com.example.noCountry.Repository.AuthoritiesRepository;
+import com.example.noCountry.Repository.UserRepository;
+import java.util.HashSet;
+import java.util.Set;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -27,9 +34,18 @@ public class NoCountryApplication {
 			}
 		};
 	}
-
-	@Bean
-	public PasswordEncoder myPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+        
+        @Bean
+        CommandLineRunner run(AuthoritiesRepository authoritiesRepository, UserRepository userRepository, PasswordEncoder passwordEncoder){
+            return args -> {
+                if (authoritiesRepository.findByAuthority("ADMIN").isPresent())return;
+                AuthoritiesRoles adminRole = authoritiesRepository.save(new AuthoritiesRoles("ADMIN"));
+                authoritiesRepository.save(new AuthoritiesRoles("USER"));
+                
+                Set<AuthoritiesRoles> roles = new HashSet<>();
+                roles.add(adminRole);
+                User admin = new User("admin", passwordEncoder.encode("password"), roles);
+                userRepository.save(admin);
+            };
+        }
 }

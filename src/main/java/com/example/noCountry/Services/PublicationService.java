@@ -5,6 +5,7 @@ import com.example.noCountry.DTO.PublicationDTO;
 import com.example.noCountry.Entity.Publication;
 import com.example.noCountry.Repository.PublicationRepository;
 import jakarta.transaction.Transactional;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -86,5 +87,22 @@ public class PublicationService {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public boolean validateFields(PublicationDTO validatePublication) throws IllegalArgumentException, Exception{
+        
+        Class<?> classPublication = validatePublication.getClass();
+        Field[] publicationFields =  classPublication.getDeclaredFields();
+        for (Field auxField : publicationFields){
+            auxField.setAccessible(true);
+            try {
+                if (auxField.get(validatePublication) == null){
+                    return false;
+                }
+            } catch (IllegalAccessException | IllegalArgumentException e){
+                throw e;
+            }
+        }
+        return true;
     }
 }

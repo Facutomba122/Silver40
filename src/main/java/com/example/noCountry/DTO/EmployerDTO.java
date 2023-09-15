@@ -23,8 +23,8 @@ public class EmployerDTO extends UserDTO {
         this.isVerified = isVerified;
     }
 
-    public EmployerDTO(String enterpriseName, FiscalCondition fiscalCondition, Long cuit, String taxResidence, Industry industryType, Boolean isVerified, String userName, String password, String firstname, String lastname, Integer contactNum, Role role, Location location, String country) {
-        super(userName, password, firstname, lastname, contactNum, role, location, country);
+    public EmployerDTO(String enterpriseName, FiscalCondition fiscalCondition, Long cuit, String taxResidence, Industry industryType, Boolean isVerified, String email, String password, String firstname, String lastname, Integer contactNum, Role role, Location location, String country) {
+        super(email, password, firstname, lastname, contactNum, role, location, country);
         this.enterpriseName = enterpriseName;
         this.fiscalCondition = fiscalCondition;
         this.cuit = cuit;
